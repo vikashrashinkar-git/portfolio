@@ -1,0 +1,970 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Vikash Rashinkar — Product Manager</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=Outfit:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink: #0c0b09;
+    --paper: #f5f0e8;
+    --accent: #c8401e;
+    --gold: #d4a94a;
+    --muted: #7a7266;
+    --border: rgba(12,11,9,0.12);
+    --ff-display: 'Bebas Neue', sans-serif;
+    --ff-serif: 'DM Serif Display', serif;
+    --ff-body: 'Outfit', sans-serif;
+    --ff-mono: 'DM Mono', monospace;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--ff-body);
+    font-size: 16px;
+    line-height: 1.6;
+    cursor: none;
+    overflow-x: hidden;
+  }
+
+  /* Custom cursor */
+  #cursor {
+    position: fixed; top: 0; left: 0; z-index: 9999;
+    pointer-events: none;
+    mix-blend-mode: multiply;
+  }
+  #cursor-dot {
+    width: 8px; height: 8px; background: var(--accent);
+    border-radius: 50%;
+    position: absolute; transform: translate(-50%, -50%);
+    transition: width .2s, height .2s;
+  }
+  #cursor-ring {
+    width: 36px; height: 36px;
+    border: 1.5px solid var(--ink);
+    border-radius: 50%;
+    position: absolute; transform: translate(-50%, -50%);
+    transition: all .12s ease-out;
+    opacity: 0.5;
+  }
+  body:hover #cursor-dot { width: 8px; }
+  a:hover ~ #cursor #cursor-ring,
+  button:hover ~ #cursor #cursor-ring { width: 48px; height: 48px; }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.25rem 3rem;
+    border-bottom: 1px solid var(--border);
+    background: rgba(245,240,232,0.9);
+    backdrop-filter: blur(12px);
+  }
+  .nav-logo {
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+  }
+  .nav-logo svg {
+    height: 36px;
+    width: auto;
+    transition: transform .3s ease;
+  }
+  .nav-logo:hover svg {
+    transform: scale(1.06);
+  }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a {
+    font-family: var(--ff-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color .2s;
+  }
+  .nav-links a:hover { color: var(--accent); }
+
+  /* HERO */
+  #hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding-top: 80px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-left {
+    padding: 6rem 3rem 4rem 3rem;
+    display: flex; flex-direction: column; justify-content: center;
+    position: relative; z-index: 2;
+  }
+
+  .hero-tag {
+    font-family: var(--ff-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1.5rem;
+    display: flex; align-items: center; gap: 0.75rem;
+  }
+  .hero-tag::before {
+    content: '';
+    display: inline-block; width: 32px; height: 1.5px;
+    background: var(--accent);
+  }
+
+  h1.display {
+    font-family: var(--ff-display);
+    font-size: clamp(5rem, 9vw, 8.5rem);
+    line-height: 0.92;
+    letter-spacing: 0.02em;
+    color: var(--ink);
+    margin-bottom: 0.3rem;
+  }
+  h1.display span.accent-line { color: var(--accent); }
+
+  .hero-sub {
+    font-family: var(--ff-serif);
+    font-size: 1.25rem;
+    font-style: italic;
+    color: var(--muted);
+    margin: 1.5rem 0 2.5rem;
+    max-width: 380px;
+    line-height: 1.5;
+  }
+
+  .hero-cta {
+    display: flex; gap: 1rem; flex-wrap: wrap; align-items: center;
+  }
+  .btn-primary {
+    font-family: var(--ff-mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    background: var(--ink);
+    color: var(--paper);
+    border: none;
+    padding: 1rem 2rem;
+    cursor: none;
+    text-decoration: none;
+    transition: background .2s, color .2s;
+    display: inline-block;
+  }
+  .btn-primary:hover { background: var(--accent); }
+  .btn-outline {
+    font-family: var(--ff-mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    background: transparent;
+    color: var(--ink);
+    border: 1.5px solid var(--ink);
+    padding: 1rem 2rem;
+    cursor: none;
+    text-decoration: none;
+    transition: all .2s;
+    display: inline-block;
+  }
+  .btn-outline:hover { background: var(--ink); color: var(--paper); }
+
+  .hero-right {
+    position: relative;
+    display: flex; align-items: center; justify-content: center;
+    overflow: hidden;
+  }
+
+  .hero-big-type {
+    font-family: var(--ff-display);
+    font-size: clamp(10rem, 18vw, 16rem);
+    color: transparent;
+    -webkit-text-stroke: 1.5px rgba(12,11,9,0.12);
+    line-height: 1;
+    position: absolute;
+    right: -2rem;
+    bottom: 3rem;
+    user-select: none;
+    letter-spacing: -0.01em;
+  }
+
+  .hero-badge {
+    position: absolute;
+    top: 8rem; right: 4rem;
+    width: 110px; height: 110px;
+    border-radius: 50%;
+    border: 1.5px solid var(--ink);
+    display: flex; align-items: center; justify-content: center;
+    animation: spin 18s linear infinite;
+  }
+  .hero-badge svg { position: absolute; width: 100%; height: 100%; }
+  .hero-badge-dot {
+    width: 6px; height: 6px; background: var(--accent); border-radius: 50%;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .hero-stat-strip {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    display: flex;
+    border-top: 1px solid var(--border);
+  }
+  .hero-stat {
+    flex: 1;
+    padding: 1.5rem 2rem;
+    border-right: 1px solid var(--border);
+  }
+  .hero-stat:last-child { border-right: none; }
+  .stat-num {
+    font-family: var(--ff-display);
+    font-size: 2.2rem;
+    letter-spacing: 0.02em;
+    color: var(--ink);
+    display: block;
+  }
+  .stat-label {
+    font-family: var(--ff-mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  /* MARQUEE */
+  .marquee-wrap {
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    padding: 0.9rem 0;
+    background: var(--ink);
+    overflow: hidden;
+    white-space: nowrap;
+  }
+  .marquee-track {
+    display: inline-flex; gap: 0;
+    animation: marquee 22s linear infinite;
+  }
+  .marquee-item {
+    font-family: var(--ff-display);
+    font-size: 1.1rem;
+    letter-spacing: 0.15em;
+    color: var(--paper);
+    padding: 0 2.5rem;
+    opacity: 0.85;
+  }
+  .marquee-sep {
+    color: var(--accent);
+    padding: 0 1rem;
+    font-size: 1.1rem;
+  }
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  /* ABOUT */
+  #about {
+    display: grid;
+    grid-template-columns: 1fr 1.4fr;
+    min-height: 70vh;
+    border-bottom: 1px solid var(--border);
+  }
+  .about-left {
+    padding: 6rem 3rem;
+    border-right: 1px solid var(--border);
+    display: flex; flex-direction: column; justify-content: space-between;
+  }
+  .section-label {
+    font-family: var(--ff-mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 3rem;
+    display: flex; align-items: center; gap: 0.75rem;
+  }
+  .section-label::before {
+    content: ''; display: inline-block;
+    width: 24px; height: 1.5px; background: var(--muted);
+  }
+  .about-headline {
+    font-family: var(--ff-serif);
+    font-size: clamp(2rem, 3.5vw, 3rem);
+    line-height: 1.2;
+    margin-bottom: 2rem;
+  }
+  .about-headline em { color: var(--accent); font-style: italic; }
+  .skill-tags {
+    display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 3rem;
+  }
+  .tag {
+    font-family: var(--ff-mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 0.4rem 0.9rem;
+    border: 1px solid var(--border);
+    color: var(--muted);
+  }
+  .tag.hot { border-color: var(--accent); color: var(--accent); }
+
+  .about-right {
+    padding: 6rem 3rem 6rem 4rem;
+  }
+  .about-body {
+    font-size: 1.05rem;
+    line-height: 1.85;
+    color: var(--ink);
+    max-width: 520px;
+    margin-bottom: 3rem;
+  }
+  .about-body p + p { margin-top: 1.25rem; }
+
+  .about-timeline {
+    border-top: 1px solid var(--border);
+    padding-top: 2rem;
+  }
+  .timeline-item {
+    display: grid;
+    grid-template-columns: 80px 1fr;
+    gap: 1rem;
+    padding: 1rem 0;
+    border-bottom: 1px solid var(--border);
+    align-items: start;
+  }
+  .tl-year {
+    font-family: var(--ff-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    padding-top: 0.2rem;
+  }
+  .tl-title {
+    font-weight: 500;
+    font-size: 0.92rem;
+    margin-bottom: 0.2rem;
+  }
+  .tl-sub {
+    font-family: var(--ff-mono);
+    font-size: 0.65rem;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+  }
+
+  /* WORK */
+  #work { border-bottom: 1px solid var(--border); }
+  .work-header {
+    padding: 4rem 3rem 2rem;
+    display: flex; align-items: flex-end; justify-content: space-between;
+    border-bottom: 1px solid var(--border);
+  }
+  .work-title {
+    font-family: var(--ff-display);
+    font-size: clamp(3.5rem, 7vw, 6rem);
+    letter-spacing: 0.02em;
+    line-height: 1;
+  }
+
+  .work-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .work-card {
+    padding: 3rem;
+    border-right: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    position: relative;
+    overflow: hidden;
+    cursor: none;
+    transition: background .3s;
+  }
+  .work-card:nth-child(even) { border-right: none; }
+  .work-card:hover { background: var(--ink); }
+  .work-card:hover .wc-title,
+  .work-card:hover .wc-body,
+  .work-card:hover .wc-num { color: var(--paper); }
+  .work-card:hover .wc-tag { border-color: rgba(245,240,232,0.2); color: rgba(245,240,232,0.5); }
+  .work-card:hover .wc-arrow { opacity: 1; transform: translate(0,0); }
+
+  .wc-num {
+    font-family: var(--ff-display);
+    font-size: 4rem;
+    color: rgba(12,11,9,0.07);
+    line-height: 1;
+    margin-bottom: 1.5rem;
+    transition: color .3s;
+  }
+  .wc-tag {
+    font-family: var(--ff-mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    border: 1px solid var(--border);
+    padding: 0.3rem 0.7rem;
+    color: var(--muted);
+    display: inline-block;
+    margin-bottom: 1.25rem;
+    transition: all .3s;
+  }
+  .wc-title {
+    font-family: var(--ff-serif);
+    font-size: 1.45rem;
+    line-height: 1.2;
+    margin-bottom: 0.75rem;
+    transition: color .3s;
+  }
+  .wc-body {
+    font-size: 0.875rem;
+    line-height: 1.7;
+    color: var(--muted);
+    transition: color .3s;
+  }
+  .wc-arrow {
+    position: absolute;
+    bottom: 2rem; right: 2rem;
+    font-size: 1.5rem;
+    opacity: 0;
+    transform: translate(-8px, 8px);
+    transition: all .3s;
+    color: var(--paper);
+  }
+
+  /* WRITING */
+  #writing { border-bottom: 1px solid var(--border); }
+  .writing-header {
+    padding: 4rem 3rem 2rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .writing-title {
+    font-family: var(--ff-display);
+    font-size: clamp(3.5rem, 7vw, 6rem);
+    letter-spacing: 0.02em;
+  }
+  .writing-list { }
+  .writing-item {
+    display: grid;
+    grid-template-columns: 60px 1fr auto;
+    gap: 2rem;
+    align-items: center;
+    padding: 2rem 3rem;
+    border-bottom: 1px solid var(--border);
+    cursor: none;
+    transition: background .2s;
+  }
+  .writing-item:hover { background: rgba(200,64,30,0.04); }
+  .writing-item:hover .wi-num { color: var(--accent); }
+  .wi-num {
+    font-family: var(--ff-display);
+    font-size: 2rem;
+    color: rgba(12,11,9,0.1);
+    transition: color .3s;
+  }
+  .wi-title {
+    font-family: var(--ff-serif);
+    font-size: 1.2rem;
+  }
+  .wi-meta {
+    font-family: var(--ff-mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-top: 0.25rem;
+  }
+  .wi-tag {
+    font-family: var(--ff-mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    background: rgba(12,11,9,0.06);
+    padding: 0.35rem 0.8rem;
+    white-space: nowrap;
+  }
+
+  /* CONTACT */
+  #contact {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 60vh;
+  }
+  .contact-left {
+    padding: 6rem 3rem;
+    border-right: 1px solid var(--border);
+    background: var(--ink);
+    color: var(--paper);
+    display: flex; flex-direction: column; justify-content: space-between;
+  }
+  .contact-big {
+    font-family: var(--ff-display);
+    font-size: clamp(3rem, 6vw, 5.5rem);
+    letter-spacing: 0.02em;
+    line-height: 1;
+    color: var(--paper);
+  }
+  .contact-big span { color: var(--accent); }
+  .contact-email {
+    font-family: var(--ff-mono);
+    font-size: 0.8rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(245,240,232,0.5);
+    margin-top: 3rem;
+  }
+  .contact-email a { color: var(--paper); text-decoration: none; }
+  .contact-email a:hover { color: var(--accent); }
+
+  .contact-right {
+    padding: 6rem 3rem;
+    display: flex; flex-direction: column; justify-content: center;
+  }
+  .contact-links {
+    display: flex; flex-direction: column; gap: 1.5rem;
+  }
+  .contact-link-item {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.5rem 0;
+    border-bottom: 1px solid var(--border);
+    text-decoration: none;
+    color: var(--ink);
+    cursor: none;
+    transition: color .2s;
+  }
+  .contact-link-item:hover { color: var(--accent); }
+  .cli-label {
+    font-family: var(--ff-mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 0.3rem;
+  }
+  .cli-value {
+    font-family: var(--ff-serif);
+    font-size: 1.25rem;
+  }
+  .cli-arrow { font-size: 1.1rem; opacity: 0.4; transition: all .2s; }
+  .contact-link-item:hover .cli-arrow { opacity: 1; transform: translateX(4px); }
+
+  /* FOOTER */
+  footer {
+    padding: 2rem 3rem;
+    border-top: 1px solid var(--border);
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .footer-copy {
+    font-family: var(--ff-mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    text-transform: uppercase;
+  }
+  .footer-made {
+    font-family: var(--ff-mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    text-transform: uppercase;
+  }
+  .footer-made span { color: var(--accent); }
+
+  /* FADE IN ANIMATION */
+  .reveal {
+    opacity: 0;
+    transform: translateY(32px);
+    transition: opacity 0.75s ease, transform 0.75s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { display: none; }
+    #hero { grid-template-columns: 1fr; }
+    .hero-right { display: none; }
+    .hero-left { padding: 5rem 1.5rem 3rem; }
+    #about { grid-template-columns: 1fr; }
+    .about-left { border-right: none; border-bottom: 1px solid var(--border); padding: 3rem 1.5rem; }
+    .about-right { padding: 3rem 1.5rem; }
+    .work-grid { grid-template-columns: 1fr; }
+    .work-card:nth-child(even) { border-right: 1px solid var(--border); }
+    #contact { grid-template-columns: 1fr; }
+    .contact-left { border-right: none; border-bottom: 1px solid var(--border); }
+    footer { flex-direction: column; gap: 0.5rem; text-align: center; }
+    .writing-item { grid-template-columns: 40px 1fr; }
+    .wi-tag { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Cursor -->
+<div id="cursor">
+  <div id="cursor-ring"></div>
+  <div id="cursor-dot"></div>
+</div>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo" aria-label="Vikash Rashinkar — Home">
+    <svg viewBox="0 0 96 36" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <!-- V -->
+      <text x="0" y="30" font-family="'Bebas Neue', sans-serif" font-size="32" fill="#0c0b09" letter-spacing="0">V</text>
+      <!-- R -->
+      <text x="22" y="30" font-family="'Bebas Neue', sans-serif" font-size="32" fill="#0c0b09" letter-spacing="0">R</text>
+      <!-- S in accent color -->
+      <text x="43" y="30" font-family="'Bebas Neue', sans-serif" font-size="32" fill="#c8401e" letter-spacing="0">S</text>
+      <!-- Underline bar — full width, accent left third -->
+      <rect x="0" y="33" width="20" height="2" fill="#0c0b09" rx="1"/>
+      <rect x="21" y="33" width="20" height="2" fill="#0c0b09" rx="1"/>
+      <rect x="42" y="33" width="22" height="2" fill="#c8401e" rx="1"/>
+    </svg>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#work">Work</a></li>
+    <li><a href="#writing">Writing</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-left">
+    <div class="hero-tag">Product Manager · Bangalore, India</div>
+    <h1 class="display">
+      VIKASH<br>
+      <span class="accent-line">RASHIN</span><br>
+      KAR
+    </h1>
+    <p class="hero-sub">
+      I build products that think in systems — and present them in ways that actually make sense.
+    </p>
+    <div class="hero-cta">
+      <a href="#work" class="btn-primary">View Work</a>
+      <a href="#contact" class="btn-outline">Let's Talk</a>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="hero-big-type">PM</div>
+    <div class="hero-badge">
+      <svg viewBox="0 0 110 110">
+        <defs>
+          <path id="circle-text" d="M 55,55 m -38,0 a 38,38 0 1,1 76,0 a 38,38 0 1,1 -76,0"/>
+        </defs>
+        <text font-family="'DM Mono', monospace" font-size="8" fill="#0c0b09" letter-spacing="3.5">
+          <textPath href="#circle-text">PRODUCT · DESIGN · STRATEGY · SYSTEMS ·&nbsp;</textPath>
+        </text>
+      </svg>
+      <div class="hero-badge-dot"></div>
+    </div>
+  </div>
+  <div class="hero-stat-strip">
+    <div class="hero-stat">
+      <span class="stat-num">1+</span>
+      <span class="stat-label">Years in PM</span>
+    </div>
+    <div class="hero-stat">
+      <span class="stat-num">5+</span>
+      <span class="stat-label">Products Shaped</span>
+    </div>
+    <div class="hero-stat">
+      <span class="stat-num">2×</span>
+      <span class="stat-label">Design + PM</span>
+    </div>
+    <div class="hero-stat">
+      <span class="stat-num">MIT</span>
+      <span class="stat-label">Institute of Design</span>
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-wrap">
+  <div class="marquee-track">
+    <span class="marquee-item">Product Roadmaps</span><span class="marquee-sep">✦</span>
+    <span class="marquee-item">User Research</span><span class="marquee-sep">✦</span>
+    <span class="marquee-item">Web3 &amp; Blockchain</span><span class="marquee-sep">✦</span>
+    <span class="marquee-item">Design Systems</span><span class="marquee-sep">✦</span>
+    <span class="marquee-item">Growth Strategy</span><span class="marquee-sep">✦</span>
+    <span class="marquee-item">Visual Thinking</span><span class="marquee-sep">✦</span>
+    <span class="marquee-item">PRD Writing</span><span class="marquee-sep">✦</span>
+    <span class="marquee-item">3D Animation</span><span class="marquee-sep">✦</span>
+    <!-- duplicate for seamless loop -->
+    <span class="marquee-item">Product Roadmaps</span><span class="marquee-sep">✦</span>
+    <span class="marquee-item">User Research</span><span class="marquee-sep">✦</span>
+    <span class="marquee-item">Web3 &amp; Blockchain</span><span class="marquee-sep">✦</span>
+    <span class="marquee-item">Design Systems</span><span class="marquee-sep">✦</span>
+    <span class="marquee-item">Growth Strategy</span><span class="marquee-sep">✦</span>
+    <span class="marquee-item">Visual Thinking</span><span class="marquee-sep">✦</span>
+    <span class="marquee-item">PRD Writing</span><span class="marquee-sep">✦</span>
+    <span class="marquee-item">3D Animation</span><span class="marquee-sep">✦</span>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-left reveal">
+    <div>
+      <div class="section-label">About</div>
+      <div class="about-headline">
+        Designer turned<br>
+        <em>product thinker.</em>
+      </div>
+    </div>
+    <div class="skill-tags">
+      <span class="tag hot">Web3</span>
+      <span class="tag hot">Product Strategy</span>
+      <span class="tag">Figma</span>
+      <span class="tag">Roadmapping</span>
+      <span class="tag">User Research</span>
+      <span class="tag">3D Design</span>
+      <span class="tag">Animation</span>
+      <span class="tag">Viscom</span>
+      <span class="tag">Growth</span>
+    </div>
+  </div>
+  <div class="about-right reveal">
+    <div class="about-body">
+      <p>
+        I'm Vikash Rashinkar — an Associate Product Manager at IDS, a blockchain and Web3 firm, where I sit at the intersection of product strategy and visual design. Before this, I spent years as a 3D designer and animator, training my eye to see systems, flows, and friction that most PMs miss.
+      </p>
+      <p>
+        I hold a Master's in Design from MIT Institute of Design, Pune, and a background in Visual Communication. That combination means I can think in user journeys <em>and</em> render them. I write PRDs in the morning and can prototype in the afternoon.
+      </p>
+      <p>
+        My edge: I understand how things look <em>and</em> how they work — and I use both to make better product decisions.
+      </p>
+    </div>
+    <div class="about-timeline">
+      <div class="timeline-item">
+        <span class="tl-year">2024–Now</span>
+        <div>
+          <div class="tl-title">Associate Product Manager — IDS</div>
+          <div class="tl-sub">Blockchain · Web3 · Emerging Tech</div>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <span class="tl-year">2022–24</span>
+        <div>
+          <div class="tl-title">3D Designer & Animator — Freelance</div>
+          <div class="tl-sub">Product Visualisation · Motion · Branding</div>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <span class="tl-year">2020–22</span>
+        <div>
+          <div class="tl-title">Master's in Design — MIT Institute of Design</div>
+          <div class="tl-sub">Animation · Interaction · Visual Systems</div>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <span class="tl-year">2018–20</span>
+        <div>
+          <div class="tl-title">Visual Communication — Undergraduate</div>
+          <div class="tl-sub">Typography · Branding · Communication Design</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WORK -->
+<section id="work">
+  <div class="work-header reveal">
+    <div class="work-title">WORK</div>
+    <div class="section-label" style="margin-bottom:0">Selected Projects</div>
+  </div>
+  <div class="work-grid">
+    <div class="work-card reveal">
+      <div class="wc-num">01</div>
+      <span class="wc-tag">Product · Web3</span>
+      <div class="wc-title">IDS Website Revamp</div>
+      <p class="wc-body">Led end-to-end product and UX strategy for idssoft.com — competitive analysis, UI benchmarking, content architecture, and cross-functional delivery with a dev team.</p>
+      <span class="wc-arrow">↗</span>
+    </div>
+    <div class="work-card reveal">
+      <div class="wc-num">02</div>
+      <span class="wc-tag">Research · Strategy</span>
+      <div class="wc-title">Blockchain Platform Competitive Analysis</div>
+      <p class="wc-body">Mapped the competitive landscape across 12 blockchain SaaS platforms, surfacing positioning gaps and informing IDS's product messaging and feature prioritisation.</p>
+      <span class="wc-arrow">↗</span>
+    </div>
+    <div class="work-card reveal">
+      <div class="wc-num">03</div>
+      <span class="wc-tag">3D · Motion</span>
+      <div class="wc-title">Product Visualisation Reel</div>
+      <p class="wc-body">Selected freelance work in 3D animation and product visualisation — showcasing the design thinking that now powers how I see product experiences.</p>
+      <span class="wc-arrow">↗</span>
+    </div>
+    <div class="work-card reveal">
+      <div class="wc-num">04</div>
+      <span class="wc-tag">Brand · Content</span>
+      <div class="wc-title">IDS Team Profile System</div>
+      <p class="wc-body">Designed and wrote professional bios and profile architecture for the IDS leadership team, establishing a consistent brand voice across digital touchpoints.</p>
+      <span class="wc-arrow">↗</span>
+    </div>
+  </div>
+</section>
+
+<!-- WRITING -->
+<section id="writing">
+  <div class="writing-header reveal">
+    <div class="writing-title">WRITING</div>
+  </div>
+  <div class="writing-list">
+    <div class="writing-item reveal">
+      <div class="wi-num">01</div>
+      <div>
+        <div class="wi-title">Why designers make better PMs — and what they still need to learn</div>
+        <div class="wi-meta">Product · 5 min read</div>
+      </div>
+      <span class="wi-tag">Coming Soon</span>
+    </div>
+    <div class="writing-item reveal">
+      <div class="wi-num">02</div>
+      <div>
+        <div class="wi-title">The visual PM: how spatial thinking changes how I write PRDs</div>
+        <div class="wi-meta">Process · 4 min read</div>
+      </div>
+      <span class="wi-tag">Coming Soon</span>
+    </div>
+    <div class="writing-item reveal">
+      <div class="wi-num">03</div>
+      <div>
+        <div class="wi-title">Building in Web3: what product managers need to actually understand</div>
+        <div class="wi-meta">Web3 · 6 min read</div>
+      </div>
+      <span class="wi-tag">Coming Soon</span>
+    </div>
+    <div class="writing-item reveal">
+      <div class="wi-num">04</div>
+      <div>
+        <div class="wi-title">From Thirukkural to product principles: what ancient wisdom teaches about building</div>
+        <div class="wi-meta">Philosophy · 5 min read</div>
+      </div>
+      <span class="wi-tag">Coming Soon</span>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="contact-left reveal">
+    <div>
+      <div class="section-label" style="color:rgba(245,240,232,0.4)">Get in touch</div>
+      <div class="contact-big">
+        LET'S<br>BUILD<br>SOME<span>THING</span><br>GREAT.
+      </div>
+    </div>
+    <div class="contact-email">
+      Reach me at<br>
+      <a href="mailto:vikash@vikashrashinkar.com">vikash@vikashrashinkar.com</a>
+    </div>
+  </div>
+  <div class="contact-right reveal">
+    <div class="section-label">Find me on</div>
+    <div class="contact-links">
+      <a href="https://linkedin.com/in/vikashrashinkar" class="contact-link-item" target="_blank">
+        <div>
+          <div class="cli-label">Professional</div>
+          <div class="cli-value">LinkedIn</div>
+        </div>
+        <span class="cli-arrow">↗</span>
+      </a>
+      <a href="#" class="contact-link-item">
+        <div>
+          <div class="cli-label">Portfolio</div>
+          <div class="cli-value">Behance / Dribbble</div>
+        </div>
+        <span class="cli-arrow">↗</span>
+      </a>
+      <a href="#" class="contact-link-item">
+        <div>
+          <div class="cli-label">Writing</div>
+          <div class="cli-value">Substack / Medium</div>
+        </div>
+        <span class="cli-arrow">↗</span>
+      </a>
+      <a href="mailto:vikash@vikashrashinkar.com" class="contact-link-item">
+        <div>
+          <div class="cli-label">Direct</div>
+          <div class="cli-value">Send an email</div>
+        </div>
+        <span class="cli-arrow">↗</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <span class="footer-copy">© 2025 Vikash Rashinkar. All rights reserved.</span>
+  <svg viewBox="0 0 64 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="height:20px;opacity:0.35;">
+    <text x="0" y="20" font-family="'Bebas Neue', sans-serif" font-size="22" fill="#0c0b09">V</text>
+    <text x="15" y="20" font-family="'Bebas Neue', sans-serif" font-size="22" fill="#0c0b09">R</text>
+    <text x="29" y="20" font-family="'Bebas Neue', sans-serif" font-size="22" fill="#c8401e">S</text>
+  </svg>
+  <span class="footer-made">Built with <span>intent</span>.</span>
+</footer>
+
+<script>
+  // Custom cursor
+  const cursor = document.getElementById('cursor');
+  const dot = document.getElementById('cursor-dot');
+  const ring = document.getElementById('cursor-ring');
+  let mx = 0, my = 0, rx = 0, ry = 0;
+
+  document.addEventListener('mousemove', e => {
+    mx = e.clientX; my = e.clientY;
+    dot.style.left = mx + 'px';
+    dot.style.top = my + 'px';
+  });
+
+  function animRing() {
+    rx += (mx - rx) * 0.12;
+    ry += (my - ry) * 0.12;
+    ring.style.left = rx + 'px';
+    ring.style.top = ry + 'px';
+    requestAnimationFrame(animRing);
+  }
+  animRing();
+
+  document.querySelectorAll('a, button, .work-card, .writing-item').forEach(el => {
+    el.addEventListener('mouseenter', () => {
+      ring.style.width = '52px';
+      ring.style.height = '52px';
+      ring.style.borderColor = 'var(--accent)';
+    });
+    el.addEventListener('mouseleave', () => {
+      ring.style.width = '36px';
+      ring.style.height = '36px';
+      ring.style.borderColor = 'var(--ink)';
+    });
+  });
+
+  // Reveal on scroll
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  reveals.forEach(r => observer.observe(r));
+</script>
+</body>
+</html>
