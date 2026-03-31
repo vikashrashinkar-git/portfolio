@@ -182,35 +182,86 @@
     position: relative;
     display: flex; align-items: center; justify-content: center;
     overflow: hidden;
+    border-left: 1px solid var(--border);
   }
 
-  .hero-big-type {
+  .hero-monogram-wrap {
+    position: relative;
+    display: flex; align-items: center; justify-content: center;
+    width: 340px; height: 340px;
+  }
+
+  .hero-monogram {
     font-family: var(--ff-display);
-    font-size: clamp(10rem, 18vw, 16rem);
-    color: transparent;
-    -webkit-text-stroke: 1.5px rgba(12,11,9,0.12);
+    font-size: clamp(7rem, 12vw, 11rem);
     line-height: 1;
-    position: absolute;
-    right: -2rem;
-    bottom: 3rem;
+    letter-spacing: -0.02em;
     user-select: none;
-    letter-spacing: -0.01em;
+    position: relative;
+    z-index: 2;
+    display: flex; align-items: baseline; gap: 0.05em;
+  }
+  .hero-monogram .m-vr { color: var(--ink); }
+  .hero-monogram .m-s  { color: var(--accent); }
+
+  /* Outline ghost duplicate behind */
+  .hero-monogram-ghost {
+    font-family: var(--ff-display);
+    font-size: clamp(9rem, 16vw, 14rem);
+    line-height: 1;
+    letter-spacing: -0.02em;
+    color: transparent;
+    -webkit-text-stroke: 1px rgba(12,11,9,0.07);
+    position: absolute;
+    z-index: 1;
+    user-select: none;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    white-space: nowrap;
   }
 
+  /* Spinning ring around monogram */
   .hero-badge {
     position: absolute;
-    top: 8rem; right: 4rem;
-    width: 110px; height: 110px;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 280px; height: 280px;
     border-radius: 50%;
-    border: 1.5px solid var(--ink);
+    border: 1px solid rgba(12,11,9,0.1);
     display: flex; align-items: center; justify-content: center;
-    animation: spin 18s linear infinite;
+    animation: spin 22s linear infinite;
+    z-index: 3;
   }
   .hero-badge svg { position: absolute; width: 100%; height: 100%; }
   .hero-badge-dot {
-    width: 6px; height: 6px; background: var(--accent); border-radius: 50%;
+    width: 7px; height: 7px; background: var(--accent); border-radius: 50%;
+    position: absolute; top: -3.5px; left: 50%; transform: translateX(-50%);
   }
-  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* Cross-hair lines */
+  .hero-crosshair {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 320px; height: 320px;
+    z-index: 1;
+  }
+  .hero-crosshair::before,
+  .hero-crosshair::after {
+    content: '';
+    position: absolute;
+    background: rgba(12,11,9,0.06);
+  }
+  .hero-crosshair::before {
+    width: 1px; height: 100%;
+    top: 0; left: 50%; transform: translateX(-50%);
+  }
+  .hero-crosshair::after {
+    width: 100%; height: 1px;
+    top: 50%; left: 0; transform: translateY(-50%);
+  }
+
+  @keyframes spin { to { transform: translate(-50%, -50%) rotate(360deg); } }
 
   .hero-stat-strip {
     position: absolute;
@@ -657,17 +708,27 @@
     </div>
   </div>
   <div class="hero-right">
-    <div class="hero-big-type">PM</div>
-    <div class="hero-badge">
-      <svg viewBox="0 0 110 110">
-        <defs>
-          <path id="circle-text" d="M 55,55 m -38,0 a 38,38 0 1,1 76,0 a 38,38 0 1,1 -76,0"/>
-        </defs>
-        <text font-family="'DM Mono', monospace" font-size="8" fill="#0c0b09" letter-spacing="3.5">
-          <textPath href="#circle-text">PRODUCT · DESIGN · STRATEGY · SYSTEMS ·&nbsp;</textPath>
-        </text>
-      </svg>
-      <div class="hero-badge-dot"></div>
+    <div class="hero-monogram-wrap">
+      <!-- Ghost outline behind -->
+      <div class="hero-monogram-ghost">VRS</div>
+      <!-- Crosshair lines -->
+      <div class="hero-crosshair"></div>
+      <!-- Main monogram -->
+      <div class="hero-monogram">
+        <span class="m-vr">VR</span><span class="m-s">S</span>
+      </div>
+      <!-- Spinning ring -->
+      <div class="hero-badge">
+        <svg viewBox="0 0 280 280">
+          <defs>
+            <path id="circle-text" d="M 140,140 m -118,0 a 118,118 0 1,1 236,0 a 118,118 0 1,1 -236,0"/>
+          </defs>
+          <text font-family="'DM Mono', monospace" font-size="10" fill="#0c0b09" letter-spacing="5" opacity="0.45">
+            <textPath href="#circle-text">VIKASH RASHINKAR · PRODUCT MANAGER · DESIGN · WEB3 · </textPath>
+          </text>
+        </svg>
+        <div class="hero-badge-dot"></div>
+      </div>
     </div>
   </div>
   <div class="hero-stat-strip">
@@ -870,7 +931,7 @@
     </div>
     <div class="contact-email">
       Reach me at<br>
-      <a href="mailto:vikash@vikashrashinkar.com">vikash@vikashrashinkar.com</a>
+      <a href="/cdn-cgi/l/email-protection#780e1113190b10380e1113190b100a190b10111613190a561b1715"><span class="__cf_email__" data-cfemail="6e1807050f1d062e1807050f1d061c0f1d060700050f1c400d0103">[email&#160;protected]</span></a>
     </div>
   </div>
   <div class="contact-right reveal">
@@ -897,7 +958,7 @@
         </div>
         <span class="cli-arrow">↗</span>
       </a>
-      <a href="mailto:vikash@vikashrashinkar.com" class="contact-link-item">
+      <a href="/cdn-cgi/l/email-protection#493f2022283a21093f2022283a213b283a21202722283b672a2624" class="contact-link-item">
         <div>
           <div class="cli-label">Direct</div>
           <div class="cli-value">Send an email</div>
@@ -919,7 +980,7 @@
   <span class="footer-made">Built with <span>intent</span>.</span>
 </footer>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
   // Custom cursor
   const cursor = document.getElementById('cursor');
   const dot = document.getElementById('cursor-dot');
@@ -956,15 +1017,4 @@
 
   // Reveal on scroll
   const reveals = document.querySelectorAll('.reveal');
-  const observer = new IntersectionObserver(entries => {
-    entries.forEach(e => {
-      if (e.isIntersecting) {
-        e.target.classList.add('visible');
-        observer.unobserve(e.target);
-      }
-    });
-  }, { threshold: 0.12 });
-  reveals.forEach(r => observer.observe(r));
-</script>
-</body>
-</html>
+  c
